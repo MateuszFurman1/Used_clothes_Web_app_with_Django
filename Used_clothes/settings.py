@@ -40,6 +40,12 @@ INSTALLED_APPS = [
     'Used_clothes_app'
 ]
 
+AUTH_USER_MODEL = 'Used_clothes_app.User'
+AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
