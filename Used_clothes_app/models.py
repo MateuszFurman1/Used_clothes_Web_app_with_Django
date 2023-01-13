@@ -24,8 +24,7 @@ class Institution(models.Model):
 
 
 class User(AbstractUser):
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
+    family_name = models.CharField(max_length=128)
 
 
 class Donation(models.Model):
