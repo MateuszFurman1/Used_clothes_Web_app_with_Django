@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'Used_clothes.wsgi.application'
 DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
-        'NAME': 'usedclothes',
+        'NAME': 'usedclothesapp',
         'ENGINE': 'django.db.backends.postgresql',
         'USER': 'postgres',
         'PASSWORD': 'admin',

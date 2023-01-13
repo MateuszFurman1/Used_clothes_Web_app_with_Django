@@ -13,7 +13,7 @@ class Institution(models.Model):
     choice = (
         ('f', 'fundacja'),
         ('o.p', 'organizacja pozarzadowa'),
-        ('z.l', 'zbiórka lokalna'),
+        ('z.l', 'zbiorka lokalna'),
     )
     name = models.CharField(max_length=128)
     description = models.TextField()
