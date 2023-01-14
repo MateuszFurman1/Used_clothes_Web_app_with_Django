@@ -1,4 +1,4 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
 
 
@@ -10,21 +10,21 @@ class Category(models.Model):
 
 
 class Institution(models.Model):
-    choice = (
-        ('f', 'fundacja'),
-        ('o.p', 'organizacja pozarzadowa'),
-        ('z.l', 'zbiorka lokalna'),
-    )
+    choice = [
+        ('f', 'Fundacja'),
+        ('op', 'Organizacja pozarządowa'),
+        ('zl', 'Zbiórka lokalna'),
+    ]
     name = models.CharField(max_length=128)
     description = models.TextField()
-    type = models.CharField(max_length=3, choices=choice, default='z.l')
+    type = models.CharField(max_length=2, choices=choice, default='z.l')
 
     def __str__(self):
         return f'{self.name}, {self.description}, {self.type}'
 
 
-class User(AbstractUser):
-    family_name = models.CharField(max_length=128)
+# class User(AbstractUser):
+#     family_name = models.CharField(max_length=128)
 
 
 class Donation(models.Model):
