@@ -11,6 +11,7 @@ class LandingPage(View):
         fundactions_list = Institution.objects.filter(type="f")
         non_gov_orgs_list = Institution.objects.filter(type="op")
         locall_collections_list = Institution.objects.filter(type="zl")
+
         f = Paginator(fundactions_list, 5)
         page_1 = request.GET.get("page")
         fundactions = f.get_page(page_1)
@@ -22,6 +23,7 @@ class LandingPage(View):
         l = Paginator(locall_collections_list, 5)
         page_3 = request.GET.get("page")
         locall_collections = l.get_page(page_3)
+
         ctx = {
             'fundactions': fundactions,
             'non_gov_orgs': non_gov_orgs,
