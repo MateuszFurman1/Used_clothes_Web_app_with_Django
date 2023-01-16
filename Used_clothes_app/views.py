@@ -1,9 +1,9 @@
-from urllib import request
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
-
-from Used_clothes_app.models import Institution, Donation
+from django.contrib.auth import authenticate, login, logout
+from Used_clothes_app.models import Institution, Donation, Category
+from Used_clothes_app.form import LoginForm, RegistrationForm
 
 
 class LandingPage(View):
@@ -32,27 +32,104 @@ class LandingPage(View):
         fundactions_set = set(fundactions_name)
         fundactions_name_count = len(list(fundactions_set))
 
-        ctx = {
-            'fundactions': fundactions,
-            'non_gov_orgs': non_gov_orgs,
-            'locall_collections': locall_collections,
-            'bag_quantity': bag_quantity,
-            'fundactions_name_count': fundactions_name_count,
-        }
+        user = request.user
+        if user.is_authenticated:
+            ctx = {
+                'fundactions': fundactions,
+                'non_gov_orgs': non_gov_orgs,
+                'locall_collections': locall_collections,
+                'bag_quantity': bag_quantity,
+                'fundactions_name_count': fundactions_name_count,
+                'user': user,
+            }
+        else:
+            ctx = {
+                'fundactions': fundactions,
+                'non_gov_orgs': non_gov_orgs,
+                'locall_collections': locall_collections,
+                'bag_quantity': bag_quantity,
+                'fundactions_name_count': fundactions_name_count,
+            }
 
         return render(request, 'index.html', ctx)
 
 
 class AddDonation(View):
     def get(self, request):
-        return render(request, 'form.html')
 
+        category = Category.objects.all()
+        institutions = Institution.objects.all()
 
-class Login(View):
-    def get(self, request):
-        return render(request, 'login.html')
+        ctx = {
+            'category': category,
+            'institutions': institutions,
+        }
+        return render(request, 'form.html', ctx)
 
 
 class Register(View):
+    '''
+    Registration views. Generate form to fill information and save them to
+    postgres database
+    if success:
+    return redirect to login view
+    if error:
+    return form again
+    '''
+
     def get(self, request):
-        return render(request, 'register.html')
+        form = RegistrationForm()
+        ctx = {
+            "form": form,
+        }
+        return render(request, "register.html", ctx)
+
+    def post(self, request):
+        form = RegistrationForm(request.POST)
+        ctx = {
+            "form": form,
+        }
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('login')
+        return render(request, 'register.html', ctx)
+
+
+class Login(View):
+    '''
+    Render login form. On post side check password and authorize user.
+    If password is the same in both form fields:
+    return redirect to home view
+    If password is wrong:
+    return form again
+    '''
+    def get(self, request):
+        form = LoginForm()
+        ctx = {
+            "form": form,
+        }
+        return render(request, 'login.html', ctx)
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('landing-page')
+            else:
+                return redirect('register')
+
+
+class Logout(View):
+    '''
+    Logout user. After logout. Display success message
+    return redirect to login views
+    '''
+    def get(self, request):
+        logout(request)
+        return redirect('login')

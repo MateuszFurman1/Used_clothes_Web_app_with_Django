@@ -58,6 +58,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Used_clothes.urls'
 
+AUTH_USER_MODEL = 'Used_clothes_app.User'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

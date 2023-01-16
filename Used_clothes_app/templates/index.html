@@ -74,12 +74,13 @@
       <h2>Komu pomagamy?</h2>
 
       <ul class="help--buttons">
-        <li data-id="1"><a href="#help" class="btn btn--without-border active">Fundacjom</a></li>
-        <li data-id="2"><a href="#help" class="btn btn--without-border active">Organizacjom pozarządowym</a></li>
-        <li data-id="3"><a href="#help" class="btn btn--without-border active">Lokalnym zbiórkom</a></li>
+        <li data-id="1"><a href="#" class="btn btn--without-border active">Fundacjom</a></li>
+        <li data-id="2"><a href="#" class="btn btn--without-border">Organizacjom pozarządowym</a></li>
+        <li data-id="3"><a href="#" class="btn btn--without-border">Lokalnym zbiórkom</a></li>
       </ul>
 
-      <!-- SLIDE 1 -->
+
+    <!-- SLIDE 1 -->
       <div class="help--slides active" data-id="1">
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
@@ -88,51 +89,38 @@
           <li>
             <div class="col">
               <div class="title">{{ fundaction.name }}</div>
-              <div class="subtitle">Cel i misja: zbieranie ubrań i pomoc potrzebującym </div>
+              <div class="subtitle">Cel i misja: {{ fundaction.goals }}</div>
             </div>
 
             <div class="col"><div class="text">{{ fundaction.description }}</div></div>
           </li>
-          {% endfor %}
+      {% endfor %}
 
 
-<!--          &lt;!&ndash; Pagination-->
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
 
-        {% if fundactions.has_previous %}
-        <li class="page-item"><a class="btn btn--small btn--without-border active" href="{% url 'landing-page' %}?page={{ fundactions.previous_page_number }}#help">Poprzednia strona</a></li>
-        {% endif %}
-        <li><a class="btn btn--small btn--without-border active">Strona {{ fundactions.number }} z {{ fundactions.paginator.num_pages }}</a></li>
-        {% if fundactions.has_next %}
-        <li class="page-item"><a class="btn btn--small btn--without-border active" href="{% url 'landing-page' %}?page={{ fundactions.next_page_number }}#help">Następna strona</a></li>
-        {% endif %}
-
-      </ul>
-    </nav>
-
-
-    <!-- Pagination
-    <ul class="help--slides-pagination">
-      <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-      <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-      <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-    </ul>
-  </div>
+        </ul>
+        <!-- Pagination
+        <ul class="help--slides-pagination">
+          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
+          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
+          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
+        </ul>
+        -->
+      </div>
 
 
   <!-- SLIDE 2 -->
-      <div class="help--slides active" data-id="2">
+      <div class="help--slides" data-id="2">
         <p>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic officiis mollitia dolor, neque aspernatur accusamus debitis. Ducimus, officia. Quia, sunt illum! Non iste placeat ab ipsum alias
-          quos suscipit corporis!
+          W naszej bazie znajdziesz listę zweryfikowanych Organizacji pozarządowych, z którymi współpracujemy. Możesz sprawdzić czym
+          się zajmują, komu pomagają i czego potrzebują.
         </p>
         <ul class="help--slides-items">
           {% for non_gov_org in non_gov_orgs %}
           <li>
             <div class="col">
               <div class="title">{{ non_gov_org.name }}</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="subtitle">Cel i misja: {{ non_gov_org.goals }}</div>
             </div>
 
             <div class="col"><div class="text">{{ non_gov_org.description }}</div></div>
@@ -140,19 +128,19 @@
           {% endfor %}
 
 
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
+<!--          <nav aria-label="Page navigation example">-->
+<!--            <ul class="pagination">-->
 
-              {% if non_gov_orgs.has_previous %}
-              <li class="page-item"><a class="btn btn--small btn--without-border active" href="{% url 'landing-page' %}?page={{ non_gov_orgs.previous_page_number }}#help">Poprzednia strona</a></li>
-              {% endif %}
-              <li><a class="btn btn--small btn--without-border active">Strona {{ non_gov_orgs.number }} z {{ non_gov_orgs.paginator.num_pages }}</a></li>
-              {% if non_gov_orgs.has_next %}
-              <li class="page-item"><a class="btn btn--small btn--without-border active" href="{% url 'landing-page' %}?page={{ non_gov_orgs.next_page_number }}#help">Następna strona</a></li>
-              {% endif %}
+<!--              {% if non_gov_orgs.has_previous %}-->
+<!--              <li class="page-item"><a class="btn btn&#45;&#45;small btn&#45;&#45;without-border active" href="{% url 'landing-page' %}?page={{ non_gov_orgs.previous_page_number }}#help">Poprzednia strona</a></li>-->
+<!--              {% endif %}-->
+<!--              <li><a class="btn btn&#45;&#45;small btn&#45;&#45;without-border active">Strona {{ non_gov_orgs.number }} z {{ non_gov_orgs.paginator.num_pages }}</a></li>-->
+<!--              {% if non_gov_orgs.has_next %}-->
+<!--              <li class="page-item"><a class="btn btn&#45;&#45;small btn&#45;&#45;without-border active" href="{% url 'landing-page' %}?page={{ non_gov_orgs.next_page_number }}#help">Następna strona</a></li>-->
+<!--              {% endif %}-->
 
-            </ul>
-          </nav>
+<!--            </ul>-->
+<!--          </nav>-->
 
 
         <!-- Pagination
@@ -168,15 +156,15 @@
         </div>
 
       <!-- SLIDE 3 -->
-      <div class="help--slides active" data-id="3">
-        <p>Lorem ipsum dolor sit amet, his ocurreret persequeris ea, ad utinam laudem duo. Verterem adipisci partiendo eos ne, ea his reque quaeque recteque, ne quo lobortis intellegam.</p>
+      <div class="help--slides" data-id="3">
+        <p>W naszej bazie znajdziesz listę zweryfikowanych lokalnych zbiórek ubrań używanych</p>
         <ul class="help--slides-items">
                       {% for locall_collection in locall_collections %}
 
           <li>
             <div class="col">
               <div class="title">{{ locall_collection.name }}</div>
-              <div class="subtitle">Lorem ipsum dolor sit amet consectetur.</div>
+              <div class="subtitle">Cel i misja: {{ locall_collection.goals }}</div>
             </div>
 
             <div class="col"><div class="text">{{ locall_collection.description }}</div></div>
@@ -185,7 +173,7 @@
           {% endfor %}
 
 
-<!--                    &lt;!&ndash; Pagination-->
+                    <!-- Pagination
           <nav aria-label="Page navigation example">
             <ul class="pagination">
 
@@ -232,6 +220,6 @@
       </div>
     </footer>
 
-    <script src="js/app.js"></script>
+    <script src="{% static 'js/app.js' %}"></script>
 
 {% endblock %}
