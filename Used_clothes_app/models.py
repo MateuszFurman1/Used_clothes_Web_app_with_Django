@@ -21,8 +21,11 @@ class Institution(models.Model):
     goals = models.TextField()
     type = models.CharField(max_length=2, choices=choice, default='z.l')
 
+    class Meta:
+        app_label = 'Used_clothes_app'
+
     def __str__(self):
-        return f'{self.name}, {self.description}, {self.type}'
+        return f'{self.name}, {self.goals}, {self.description}, {self.type}'
 
 
 class CustomUserManager(BaseUserManager):
