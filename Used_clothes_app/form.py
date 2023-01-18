@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django import forms
 from xdg.Exceptions import ValidationError
+from Used_clothes_app.models import User
 
 
 class LoginForm(forms.Form):
@@ -25,3 +26,9 @@ class RegistrationForm(forms.ModelForm):
         cleaned_data = super().clean()
         if cleaned_data['password'] != cleaned_data['re_password']:
             raise ValidationError('Passwords are not the same!')
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']

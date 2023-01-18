@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from Used_clothes_app.models import Institution, Donation, Category
-from Used_clothes_app.form import LoginForm, RegistrationForm
+from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm
 
 
 class LandingPage(View):
@@ -133,3 +133,14 @@ class Logout(View):
     def get(self, request):
         logout(request)
         return redirect('login')
+
+
+class Profile(View):
+    def get(self, request):
+        user = request.user
+        form = ProfileForm(instance=user)
+        ctx = {
+            'user': user,
+            'form': form,
+        }
+        return render(request, 'profile.html', ctx)
