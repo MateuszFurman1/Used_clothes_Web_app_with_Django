@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+(% load crispy_forms_tags %)
 
 {% block header %}
     <header class="header">
@@ -11,36 +12,26 @@
   <section class="form--steps" id="form">
       <div class="form--steps-instructions">
         <div class="form--steps-container">
-          <h3>View profile</h3>
-          <p data-step="1" class="active">
-          </p>
+          <h3>Profile</h3>
+
         </div>
       </div>
+<div class="container">
+    <ul>
+        <li><h3><p>Imię: {{ user.first_name }}</p> </h3></li>
+    <li><h3><p> Nazwisko: {{ user.last_name }}</p> </h3></li>
+    <li><h3><p> Email: {{ user.email }} </p></h3></li>
+    <li>
+        <h3><p> Przekazane dary:<br>
+        {% for donation in donations %}
+        <li>Nazwa organizacji: {{ donation.institution.name }}</li>
+                <li>Ilość przekazanych worków: {{ donation.quantity }}</li>
+                <li>Termin odebrania: {{ donation.pick_up_date }}, {{ donation.pick_up_time }}</li>
+        {% endfor %}
+    </h3></p></li>
+        </ul>
+</div>
 
-      <div class="form--steps-container">
-        <div class="form--steps-counter">{{ user.first_name }}</div>
-
-        <form action="form-confirmation.html" method="post">
-
-<!--            <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>-->
-
-<!--            <div class="form-group form-group&#45;&#45;inline">\-->
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit">
-
-<!--              <label>-->
-<!--                Liczba 60l worków:-->
-<!--                <input type="number" name="bags" step="1" min="1" />-->
-<!--              </label>-->
-<!--            </div>-->
-
-            <div class="form-group form-group--buttons">
-              <button type="button" class="btn prev-step">Wstecz</button>
-              <button type="button" class="btn next-step">Dalej</button>
-            </div>
-
-        </form>
       </div>
     </section>
 

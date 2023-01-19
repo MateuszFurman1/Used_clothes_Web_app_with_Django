@@ -139,8 +139,11 @@ class Profile(View):
     def get(self, request):
         user = request.user
         form = ProfileForm(instance=user)
+        donations = user.donation_set.all()
+
         ctx = {
             'user': user,
             'form': form,
+            'donations': donations,
         }
         return render(request, 'profile.html', ctx)
