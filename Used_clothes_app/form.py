@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django import forms
 from xdg.Exceptions import ValidationError
-from Used_clothes_app.models import User
+from Used_clothes_app.models import User, Donation
 
 
 class LoginForm(forms.Form):
@@ -32,3 +32,16 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email']
+
+
+class DonationForm(forms.Form):
+    quantity = forms.IntegerField()
+    categories = forms.CharField(max_length=128)
+    institution = forms.CharField(max_length=128)
+    address = forms.CharField(max_length=128)
+    phone_number = forms.IntegerField()
+    city = forms.CharField(max_length=128)
+    zip_code = forms.CharField(max_length=128)
+    pick_up_date = forms.DateField()
+    pick_up_time = forms.TimeField()
+    pick_up_comment = forms.CharField(max_length=128)

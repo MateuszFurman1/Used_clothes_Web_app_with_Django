@@ -1,9 +1,10 @@
 from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from Used_clothes_app.models import Institution, Donation, Category
-from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm
+from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm, DonationForm
 
 
 class LandingPage(View):
@@ -57,14 +58,34 @@ class LandingPage(View):
 class AddDonation(View):
     def get(self, request):
 
-        category = Category.objects.all()
+        categories = Category.objects.all()
         institutions = Institution.objects.all()
 
         ctx = {
-            'category': category,
+            'categories': categories,
             'institutions': institutions,
         }
         return render(request, 'form.html', ctx)
+
+    def post(self, request):
+
+        form = DonationForm(request.POST)
+        if form.is_valid():
+            categories = form.cleaned_data['categories']
+            bags = form.cleaned_data['bags']
+            institution = form.cleaned_data['institution']
+            street = form.cleaned_data['street']
+            city = form.cleaned_data['city']
+            postcode = form.cleaned_data['postcode']
+            phone = form.cleaned_data['phone']
+            date = form.cleaned_data['date']
+            time = form.cleaned_data['time']
+            more_info = form.cleaned_data['more_info']
+            print(categories, bags, institution, street, city, postcode, phone, date,)
+            # do something with the form data
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
 
 
 class Register(View):

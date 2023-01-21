@@ -70,7 +70,40 @@ document.addEventListener("DOMContentLoaded", function() {
   if (helpSection !== null) {
     new Help(helpSection);
   }
+  /**
+   * From- submiting using fetch
+   */
+  const submitForm = document.getElementById("submit-form");
+  submitForm.addEventListener("click", submitDate);
 
+  function submitDate() {
+    const categories = document.getElementById("categories").value;
+    const bags = document.getElementById("bags").value;
+    const institution = document.getElementById("institution").value;
+    const street = document.getElementById("street").value;
+    const city = document.getElementById("city").value;
+    const postcode = document.getElementById("postcode").value;
+    const phone = document.getElementById("phone").value;
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+    const more_info = document.getElementById("text").more_info;
+
+    fetch('http://127.0.0.1:8000/Used_clothes_app/AddDonation/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrf_token // csrf token is used for security to prevent cross-site request forgery
+      },
+      body: JSON.stringify({'categories': categories, 'bags': bags, 'institution': institution, 'street': street})
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+}
   /**
    * Form Select
    */
@@ -251,5 +284,33 @@ document.addEventListener("DOMContentLoaded", function() {
   const form = document.querySelector(".form--steps");
   if (form !== null) {
     new FormSteps(form);
+  }
+  /**
+   * Function showing summary in js form
+   */
+  const submitAgree = document.getElementById("submit-agree");
+  submitAgree.addEventListener("click", showSummary);
+
+  function showSummary() {
+    const categories = document.getElementById("categories").value;
+    const bags = document.getElementById("bags").value;
+    const institution = document.getElementById("institution").value;
+    const street = document.getElementById("street").value;
+    const city = document.getElementById("city").value;
+    const postcode = document.getElementById("postcode").value;
+    const phone = document.getElementById("phone").value;
+    const date = document.getElementById("date").value;
+    const time = document.getElementById("time").value;
+    const more_info = document.getElementById("more_info").value;
+
+    document.getElementById("summary-1").innerHTML = bags + " worki, kategorii:"+ categories;
+    document.getElementById("summary-2").innerHTML = "Dla:"+ institution;
+    document.getElementById("summary-3").innerHTML += "<li>" + street + "</li>";
+    document.getElementById("summary-3").innerHTML += "<li>" + city + "</li>";
+    document.getElementById("summary-3").innerHTML += "<li>" + postcode + "</li>";
+    document.getElementById("summary-3").innerHTML += "<li>" + phone + "</li>";
+    document.getElementById("summary-4").innerHTML += "<li>" + date + "</li>";
+    document.getElementById("summary-4").innerHTML += "<li>" + time + "</li>";
+    document.getElementById("summary-4").innerHTML += "<li>" + more_info + "</li>";
   }
 });
