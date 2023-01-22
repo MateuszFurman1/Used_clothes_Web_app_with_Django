@@ -86,6 +86,7 @@
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
         <form action="form-confirmation.html" method="post">
+          {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
@@ -97,7 +98,7 @@
                   type="checkbox"
                   name="categories"
                   id = "categories"
-                  value={{ category.id }}
+                  value="{{ category.name }}"
                 />
                 <span class="checkbox"></span>
                 <span class="description"
@@ -119,7 +120,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" id="bags" value={{ category.id }} />
+                <input type="number" name="bags" step="1" min="1" id="bags" />
               </label>
             </div>
 
@@ -136,7 +137,7 @@
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox">
               <label>
-                <input type="radio" name="organization" id="institution" value={{ institution.id }} />
+                <input type="radio" name="organization" id="institution" value="{{ institution.name }}" />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>
@@ -236,7 +237,7 @@
 
                   <li>
                     <span class="icon icon-hand"></span>
-                    <span class="summary--text id="summary-2
+                    <span class="summary--text" id="summary-2"
                       >Dla fundacji "Mam marzenie" w Warszawie</span
                     >
                   </li>
@@ -247,19 +248,12 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul id="summary-3">
-                    <li>Prosta 51</li>
-                    <li>Warszawa</li>
-                    <li>99-098</li>
-                    <li>123 456 789</li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul id="summary-4">
-                    <li>13/12/2018</li>
-                    <li>15:40</li>
-                    <li>Brak uwag</li>
                   </ul>
                 </div>
               </div>
