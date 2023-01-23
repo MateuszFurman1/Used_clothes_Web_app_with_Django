@@ -1,8 +1,11 @@
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import TemplateView
+
 from Used_clothes_app.models import Institution, Donation, Category
 from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm, DonationForm
 
@@ -72,18 +75,25 @@ class AddDonation(View):
         form = DonationForm(request.POST)
         if form.is_valid():
             categories = form.cleaned_data['categories']
-            bags = form.cleaned_data['bags']
+            # category =
+            quantity = form.cleaned_data['quantity']
             institution = form.cleaned_data['institution']
-            street = form.cleaned_data['street']
+            address = form.cleaned_data['address']
             city = form.cleaned_data['city']
-            postcode = form.cleaned_data['postcode']
-            phone = form.cleaned_data['phone']
-            date = form.cleaned_data['date']
-            time = form.cleaned_data['time']
-            more_info = form.cleaned_data['more_info']
-            print(categories, bags, institution, street, city, postcode, phone, date,)
+            zip_code = form.cleaned_data['zip_code']
+            phone_number = form.cleaned_data['phone_number']
+            pick_up_date = form.cleaned_data['pick_up_date']
+            pick_up_time = form.cleaned_data['pick_up_time']
+            pick_up_comment = form.cleaned_data['pick_up_comment']
+            print(categories, quantity, institution, address, city, zip_code, phone_number,
+                  pick_up_date, pick_up_time, pick_up_comment)
+            user = request.user
+            # if user.is_authenticated:
+            #     Donation.objects.create(categories=categories,quantity=quantity,institution=institution,
+            #                             address=address,city=city,zip_code=zip_code,phone_number=phone_number,
+            #                             pick_up_date=pick_up_date,pick_up_time=pick_up_time, pick_up_comment=pick_up_comment)
             # do something with the form data
-            return JsonResponse({'status': 'success'})
+            return JsonResponse({'status': 'success', 'success_url': reverse('success')})
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors})
 
@@ -168,3 +178,8 @@ class Profile(View):
             'donations': donations,
         }
         return render(request, 'profile.html', ctx)
+
+
+class FormConfirmation(View):
+    def get(self, request):
+        return render(request, 'form-confirmation.html' )

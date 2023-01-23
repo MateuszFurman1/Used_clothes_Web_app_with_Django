@@ -263,77 +263,129 @@ document.addEventListener("DOMContentLoaded", function() {
     let category = []
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].checked) {
-        category.push(categories[i].value);
+        category.push(categories[i].dataset.name);
       }}
-    const bags = document.getElementById("bags").value;
+    const quantity = document.getElementById("quantity").value;
     const institution = document.querySelectorAll("#institution")
     let institut = []
     for (let i = 0; i < institution.length; i++) {
       if (institution[i].checked) {
-        institut.push(institution[i].value);
+        institut.push(institution[i].dataset.name);
       }}
-    const street = document.getElementById("street").value;
+    const address = document.getElementById("address").value;
     const city = document.getElementById("city").value;
-    const postcode = document.getElementById("postcode").value;
-    const phone = document.getElementById("phone").value;
-    const date = document.getElementById("date").value;
-    const time = document.getElementById("time").value;
-    const more_info = document.getElementById("more_info").value;
+    const zip_code = document.getElementById("zip_code").value;
+    const phone_number = document.getElementById("phone_number").value;
+    const pick_up_date = document.getElementById("pick_up_date").value;
+    const pick_up_time = document.getElementById("pick_up_time").value;
+    const pick_up_comment = document.getElementById("pick_up_comment").value;
 
-    document.getElementById("summary-1").innerHTML = bags + " worki/ów, w kategorii:"+ category[0];
+    document.getElementById("summary-1").innerHTML = quantity + " worki/ów, w kategorii: "+ category[0];
     document.getElementById("summary-2").innerHTML = "Dla: " + institut;
-    document.getElementById("summary-3").innerHTML += "<li>" + street + "</li>";
+    document.getElementById("summary-3").innerHTML += "<li>" + address + "</li>";
     document.getElementById("summary-3").innerHTML += "<li>" + city + "</li>";
-    document.getElementById("summary-3").innerHTML += "<li>" + postcode + "</li>";
-    document.getElementById("summary-3").innerHTML += "<li>" + phone + "</li>";
-    document.getElementById("summary-4").innerHTML += "<li>" + date + "</li>";
-    document.getElementById("summary-4").innerHTML += "<li>" + time + "</li>";
-    document.getElementById("summary-4").innerHTML += "<li>" + more_info + "</li>";
+    document.getElementById("summary-3").innerHTML += "<li>" + zip_code + "</li>";
+    document.getElementById("summary-3").innerHTML += "<li>" + phone_number + "</li>";
+    document.getElementById("summary-4").innerHTML += "<li>" + pick_up_date + "</li>";
+    document.getElementById("summary-4").innerHTML += "<li>" + pick_up_time + "</li>";
+    document.getElementById("summary-4").innerHTML += "<li>" + pick_up_comment + "</li>";
   }
 
   /**
    * From- submiting using fetch
    */
-  const submitForm = document.getElementById("submit-form");
-  submitForm.addEventListener("click", submitDate);
 
-  function submitDate() {
-    const categories = document.querySelectorAll("#categories");
-    let category = []
-    for (let i = 0; i < categories.length; i++) {
-      if (categories[i].checked) {
-        category.push(categories[i].value);
-      }}
-    const bags = document.getElementById("bags").value;
-    const institution = document.querySelectorAll("#institution")
-    let institut = []
-    for (let i = 0; i < institution.length; i++) {
-      if (institution[i].checked) {
-        institut.push(institution[i].value);
-      }}
-    const street = document.getElementById("street").value;
-    const city = document.getElementById("city").value;
-    const postcode = document.getElementById("postcode").value;
-    const phone = document.getElementById("phone").value;
-    const date = document.getElementById("date").value;
-    const time = document.getElementById("time").value;
-    const more_info = document.getElementById("more_info").value;
+  const formSubmit = document.querySelector("form");
 
-    fetch('http://127.0.0.1:8000/Used_clothes_app/add-donation/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRFToken': csrf_token // csrf token is used for security to prevent cross-site request forgery
-      },
-      body: JSON.stringify({'categories': categories, 'bags': bags, 'institution': institution,
-        'street': street, 'city': city, 'postcode': postcode, 'phone': phone, 'date': date, 'time': time, 'more_info': more_info})
+formSubmit.addEventListener("submit", event => {
+
+  const formData = new FormData(formSubmit);
+
+  // Send the formData to the server
+  fetch('/add-donation/', {
+    method: "POST",
+    body: formData
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("HTTP error, status = " + response.status);
+      }
+      return response.json();
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-}
+    .then(data => {
+      console.log("Success:", data);
+      window.location.href = '/success';
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+});
+
+
+
+  // const submitForm = document.getElementById("submit-form");
+  // submitForm.addEventListener("click", submitDate);
+  //
+  // function submitDate() {
+
+    /**
+   * Recznie, można tak robić ale za dużo pracy i nieprofesjonalnie. Trzeba każką zmienną wyciągnąć
+     * z DOMa i ręcznie przypisać. Trzeba też zadbać o crsf_token.Wywołać funkcjię cookieValue i przypisać ją
+     * do zmiennej.
+     * Najlepiej stworzyć FormData. Sama ogarnie crsf/0token i przeszuka DOM w celu wyciągnięcia potrzebnych info.
+   */
+//     const categories = document.querySelectorAll("#categories");
+//     let category = []
+//     for (let i = 0; i < categories.length; i++) {
+//       if (categories[i].checked) {
+//         category.push(categories[i].value);
+//       }}
+//     const bags = document.getElementById("bags").value;
+//     const institution = document.querySelectorAll("#institution")
+//     let institut = []
+//     for (let i = 0; i < institution.length; i++) {
+//       if (institution[i].checked) {
+//         institut.push(institution[i].value);
+//       }}
+//     const street = document.getElementById("street").value;
+//     const city = document.getElementById("city").value;
+//     const postcode = document.getElementById("postcode").value;
+//     const phone = document.getElementById("phone").value;
+//     const date = document.getElementById("date").value;
+//     const time = document.getElementById("time").value;
+//     const more_info = document.getElementById("more_info").value;
+//     function getCookie(name) {
+//     let cookieValue = null;
+//     if (document.cookie && document.cookie !== '') {
+//         const cookies = document.cookie.split(';');
+//         for (let i = 0; i < cookies.length; i++) {
+//             const cookie = cookies[i].trim();
+//             // Does this cookie string begin with the name we want?
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// }
+//     const csrf_token = getCookie('csrftoken');
+
+    // fetch('/add-donation/', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'X-CSRFToken': csrf_token // csrf token is used for security to prevent cross-site request forgery
+    //   },
+    //   body: JSON.stringify({'categories': categories, 'bags': bags, 'institution': institution,
+    //     'street': street, 'city': city, 'postcode': postcode, 'phone': phone, 'date': date, 'time': time, 'more_info': more_info})
+    // })
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     console.log('Success:', data);
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error:', error);
+    //   });
+
 });

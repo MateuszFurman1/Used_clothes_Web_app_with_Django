@@ -98,7 +98,8 @@
                   type="checkbox"
                   name="categories"
                   id = "categories"
-                  value="{{ category.name }}"
+                  value="{{ category.id }}"
+                  data-name="{{ category.name }}"
                 />
                 <span class="checkbox"></span>
                 <span class="description"
@@ -120,7 +121,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" id="bags" />
+                <input type="number" name="quantity" step="1" min="1" id="quantity" />
               </label>
             </div>
 
@@ -137,7 +138,11 @@
             {% for institution in institutions %}
             <div class="form-group form-group--checkbox">
               <label>
-                <input type="radio" name="organization" id="institution" value="{{ institution.name }}" />
+                <input type="radio"
+                       name="institution"
+                       id="institution"
+                       value="{{ institution.id }}"
+                       data-name="{{ institution.name }}"  />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>
@@ -176,7 +181,7 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="street" id="street"/> </label>
+                  <label> Ulica <input type="text" name="address" id="address"/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
@@ -185,13 +190,13 @@
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Kod pocztowy <input type="text" name="postcode" id="postcode"/>
+                    Kod pocztowy <input type="text" name="zip_code" id="zip_code"/>
                   </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="phone" name="phone" id="phone"/>
+                    Numer telefonu <input type="phone" name="phone_number" id="phone_number"/>
                   </label>
                 </div>
               </div>
@@ -199,17 +204,17 @@
               <div class="form-section--column">
                 <h4>Termin odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Data <input type="date" name="date" id="date"/> </label>
+                  <label> Data <input type="date" name="pick_up_date" id="pick_up_date"/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time" id="time"/> </label>
+                  <label> Godzina <input type="time" name="pick_up_time" id="pick_up_time"/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
                     Uwagi dla kuriera
-                    <textarea name="more_info" rows="5" id="more_info"></textarea>
+                    <textarea name="pick_up_comment" rows="5" id="pick_up_comment"></textarea>
                   </label>
                 </div>
               </div>
