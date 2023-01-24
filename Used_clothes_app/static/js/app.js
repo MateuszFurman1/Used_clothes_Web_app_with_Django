@@ -314,7 +314,7 @@ formSubmit.addEventListener("submit", event => {
     })
     .then(data => {
       console.log("Success:", data);
-      window.location.href = '/success';
+      // window.location.href = '/success';
     })
     .catch(error => {
       console.error("Error:", error);

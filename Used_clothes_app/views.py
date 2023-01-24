@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
@@ -74,10 +74,11 @@ class AddDonation(View):
 
         form = DonationForm(request.POST)
         if form.is_valid():
-            categories = form.cleaned_data['categories']
-            # category =
+            category = form.cleaned_data['categories']
+            categories = get_object_or_404(Category, pk=category)
             quantity = form.cleaned_data['quantity']
-            institution = form.cleaned_data['institution']
+            institut = form.cleaned_data['institution']
+            institution = get_object_or_404(Institution, pk=institut)
             address = form.cleaned_data['address']
             city = form.cleaned_data['city']
             zip_code = form.cleaned_data['zip_code']
@@ -85,14 +86,12 @@ class AddDonation(View):
             pick_up_date = form.cleaned_data['pick_up_date']
             pick_up_time = form.cleaned_data['pick_up_time']
             pick_up_comment = form.cleaned_data['pick_up_comment']
-            print(categories, quantity, institution, address, city, zip_code, phone_number,
-                  pick_up_date, pick_up_time, pick_up_comment)
             user = request.user
-            # if user.is_authenticated:
-            #     Donation.objects.create(categories=categories,quantity=quantity,institution=institution,
-            #                             address=address,city=city,zip_code=zip_code,phone_number=phone_number,
-            #                             pick_up_date=pick_up_date,pick_up_time=pick_up_time, pick_up_comment=pick_up_comment)
-            # do something with the form data
+            if user.is_authenticated:
+                Donation.objects.create(categories=categories,quantity=quantity,institution=institution,
+                                        address=address,city=city,zip_code=zip_code,phone_number=phone_number,
+                                        pick_up_date=pick_up_date,pick_up_time=pick_up_time,
+                                        pick_up_comment=pick_up_comment, user=user)
             return JsonResponse({'status': 'success', 'success_url': reverse('success')})
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors})
