@@ -17,19 +17,50 @@
         </div>
       </div>
 <div class="container">
-    <ul>
-        <li><h3><p>Imię: {{ user.first_name }}</p> </h3></li>
-    <li><h3><p> Nazwisko: {{ user.last_name }}</p> </h3></li>
-    <li><h3><p> Email: {{ user.email }} </p></h3></li>
-    <li>
-        <h3><p> Przekazane dary:<br>
+
+    <div class="profile-container">
+  <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+          <h3>Email: {{ user.email }}</h3><br>
+        <h1> Przekazane dary:</h1><br>
         {% for donation in donations %}
-        <li>Nazwa organizacji: {{ donation.institution.name }}</li>
-                <li>Ilość przekazanych worków: {{ donation.quantity }}</li>
-                <li>Termin odebrania: {{ donation.pick_up_date }}, {{ donation.pick_up_time }}</li>
+  <table>
+    <tr>
+      <td>Nazwa organizacji:</td>
+      <td>{{ donation.institution.name }}</td>
+    </tr>
+    <tr>
+      <td>Ilość przekazanych worków:</td>
+      <td>{{ donation.quantity }}</td>
+    </tr>
+    <tr>
+      <td>Termin odebrania:</td>
+      <td>{{ donation.pick_up_date }}, {{ donation.pick_up_time }}</td>
+    </tr>
+    <tr>
+      <td>Odebrane:</td>
+        <form method="POST">
+                {% csrf_token %}
+      <td><input type="checkbox"></td>
+        </form>
+    </tr>
+      <br>
+  </table>
         {% endfor %}
-    </h3></p></li>
-        </ul>
+
+</div>
+<!--    <ul>-->
+<!--        <li><h3><p>Imię: {{ user.first_name }}</p> </h3></li>-->
+<!--    <li><h3><p> Nazwisko: {{ user.last_name }}</p> </h3></li>-->
+<!--    <li><h3><p> Email: {{ user.email }} </p></h3></li>-->
+<!--    <li>-->
+<!--        <h3><p> Przekazane dary:<br>-->
+<!--        {% for donation in donations %}-->
+<!--        <li>Nazwa organizacji: {{ donation.institution.name }}</li>-->
+<!--                <li>Ilość przekazanych worków: {{ donation.quantity }}</li>-->
+<!--                <li>Termin odebrania: {{ donation.pick_up_date }}, {{ donation.pick_up_time }}</li>-->
+<!--        {% endfor %}-->
+<!--    </h3></p></li>-->
+<!--        </ul>-->
 </div>
 
       </div>

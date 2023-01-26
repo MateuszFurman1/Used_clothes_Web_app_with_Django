@@ -74,13 +74,14 @@ class User(AbstractUser):
 
 class Donation(models.Model):
     quantity = models.PositiveIntegerField()
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, blank=True)
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE)
     address = models.CharField(max_length=128)
     phone_number = models.PositiveIntegerField()
     city = models.CharField(max_length=64)
-    zip_code = models.CharField(max_length=5)
+    zip_code = models.CharField(max_length=6)
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.CharField(max_length=255)
+    is_taken = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)

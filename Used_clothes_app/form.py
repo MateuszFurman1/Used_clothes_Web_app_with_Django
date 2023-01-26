@@ -45,3 +45,4 @@ class DonationForm(forms.Form):
     pick_up_date = forms.DateField()
     pick_up_time = forms.TimeField()
     pick_up_comment = forms.CharField(max_length=128)
+    is_taken = forms.BooleanField(initial=False, required=False, label='Odebrane:')

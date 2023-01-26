@@ -314,78 +314,10 @@ formSubmit.addEventListener("submit", event => {
     })
     .then(data => {
       console.log("Success:", data);
-      // window.location.href = '/success';
+      window.location.href = '/success';
     })
     .catch(error => {
       console.error("Error:", error);
     });
 });
-
-
-
-  // const submitForm = document.getElementById("submit-form");
-  // submitForm.addEventListener("click", submitDate);
-  //
-  // function submitDate() {
-
-    /**
-   * Recznie, można tak robić ale za dużo pracy i nieprofesjonalnie. Trzeba każką zmienną wyciągnąć
-     * z DOMa i ręcznie przypisać. Trzeba też zadbać o crsf_token.Wywołać funkcjię cookieValue i przypisać ją
-     * do zmiennej.
-     * Najlepiej stworzyć FormData. Sama ogarnie crsf/0token i przeszuka DOM w celu wyciągnięcia potrzebnych info.
-   */
-//     const categories = document.querySelectorAll("#categories");
-//     let category = []
-//     for (let i = 0; i < categories.length; i++) {
-//       if (categories[i].checked) {
-//         category.push(categories[i].value);
-//       }}
-//     const bags = document.getElementById("bags").value;
-//     const institution = document.querySelectorAll("#institution")
-//     let institut = []
-//     for (let i = 0; i < institution.length; i++) {
-//       if (institution[i].checked) {
-//         institut.push(institution[i].value);
-//       }}
-//     const street = document.getElementById("street").value;
-//     const city = document.getElementById("city").value;
-//     const postcode = document.getElementById("postcode").value;
-//     const phone = document.getElementById("phone").value;
-//     const date = document.getElementById("date").value;
-//     const time = document.getElementById("time").value;
-//     const more_info = document.getElementById("more_info").value;
-//     function getCookie(name) {
-//     let cookieValue = null;
-//     if (document.cookie && document.cookie !== '') {
-//         const cookies = document.cookie.split(';');
-//         for (let i = 0; i < cookies.length; i++) {
-//             const cookie = cookies[i].trim();
-//             // Does this cookie string begin with the name we want?
-//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//                 break;
-//             }
-//         }
-//     }
-//     return cookieValue;
-// }
-//     const csrf_token = getCookie('csrftoken');
-
-    // fetch('/add-donation/', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'X-CSRFToken': csrf_token // csrf token is used for security to prevent cross-site request forgery
-    //   },
-    //   body: JSON.stringify({'categories': categories, 'bags': bags, 'institution': institution,
-    //     'street': street, 'city': city, 'postcode': postcode, 'phone': phone, 'date': date, 'time': time, 'more_info': more_info})
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     console.log('Success:', data);
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error:', error);
-    //   });
-
 });

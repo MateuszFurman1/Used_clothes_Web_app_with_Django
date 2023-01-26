@@ -1,3 +1,5 @@
+from typing import Any
+
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -74,24 +76,22 @@ class AddDonation(View):
 
         form = DonationForm(request.POST)
         if form.is_valid():
-            category = form.cleaned_data['categories']
-            categories = get_object_or_404(Category, pk=category)
-            quantity = form.cleaned_data['quantity']
-            institut = form.cleaned_data['institution']
-            institution = get_object_or_404(Institution, pk=institut)
-            address = form.cleaned_data['address']
-            city = form.cleaned_data['city']
-            zip_code = form.cleaned_data['zip_code']
-            phone_number = form.cleaned_data['phone_number']
-            pick_up_date = form.cleaned_data['pick_up_date']
-            pick_up_time = form.cleaned_data['pick_up_time']
-            pick_up_comment = form.cleaned_data['pick_up_comment']
-            user = request.user
-            if user.is_authenticated:
-                Donation.objects.create(categories=categories,quantity=quantity,institution=institution,
-                                        address=address,city=city,zip_code=zip_code,phone_number=phone_number,
-                                        pick_up_date=pick_up_date,pick_up_time=pick_up_time,
-                                        pick_up_comment=pick_up_comment, user=user)
+            donation = Donation()
+            donation.quantity = form.cleaned_data['quantity']
+            institution = get_object_or_404(Institution, pk=form.cleaned_data['institution'])
+            donation.institution = institution
+            donation.address = form.cleaned_data['address']
+            donation.phone_number = form.cleaned_data['phone_number']
+            donation.city = form.cleaned_data['city']
+            donation.zip_code = form.cleaned_data['zip_code']
+            donation.pick_up_date = form.cleaned_data['pick_up_date']
+            donation.pick_up_time = form.cleaned_data['pick_up_time']
+            donation.pick_up_comment = form.cleaned_data['pick_up_comment']
+            donation.user = request.user
+            donation.save()
+            categories = Category.objects.filter(pk__in=form.cleaned_data['categories'])
+            donation.categories.set(categories)
+
             return JsonResponse({'status': 'success', 'success_url': reverse('success')})
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors})
@@ -135,6 +135,7 @@ class Login(View):
     If password is wrong:
     return form again
     '''
+
     def get(self, request):
         form = LoginForm()
         ctx = {
@@ -160,6 +161,7 @@ class Logout(View):
     Logout user. After logout. Display success message
     return redirect to login views
     '''
+
     def get(self, request):
         logout(request)
         return redirect('login')
@@ -170,15 +172,23 @@ class Profile(View):
         user = request.user
         form = ProfileForm(instance=user)
         donations = user.donation_set.all()
+        form2 = DonationForm()
 
         ctx = {
             'user': user,
             'form': form,
             'donations': donations,
+            'form2': form2,
         }
         return render(request, 'profile.html', ctx)
+
+    def post(self, request):
+        form2 = DonationForm(request.POST)
+        if form2.is_valid():
+            form2.save()
+
 
 
 class FormConfirmation(View):
     def get(self, request):
-        return render(request, 'form-confirmation.html' )
+        return render(request, 'form-confirmation.html')
