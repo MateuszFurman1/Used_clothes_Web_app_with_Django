@@ -1,13 +1,12 @@
 from typing import Any
 
 from django.core.paginator import Paginator
+from django.forms import forms
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
-from django.views.generic import TemplateView
-
 from Used_clothes_app.models import Institution, Donation, Category
 from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm, DonationForm
 
@@ -124,6 +123,8 @@ class Register(View):
             user.set_password(form.cleaned_data['password'])
             user.save()
             return redirect('login')
+        else:
+            print(form.errors)
         return render(request, 'register.html', ctx)
 
 
@@ -170,22 +171,25 @@ class Logout(View):
 class Profile(View):
     def get(self, request):
         user = request.user
-        form = ProfileForm(instance=user)
         donations = user.donation_set.all()
-        form2 = DonationForm()
+        DonationFormSet = forms.formset_factory(DonationForm, extra=donations.count())
+        formset = DonationFormSet()
 
         ctx = {
             'user': user,
-            'form': form,
             'donations': donations,
-            'form2': form2,
+            'formset': formset,
         }
         return render(request, 'profile.html', ctx)
 
     def post(self, request):
-        form2 = DonationForm(request.POST)
-        if form2.is_valid():
-            form2.save()
+        user = request.user
+        donations = user.donation_set.all()
+        DonationFormSet = forms.formset_factory(DonationForm, extra=len(donations))
+        formset = DonationFormSet(request.POST)
+
+        
+
 
 
 

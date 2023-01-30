@@ -17,12 +17,15 @@
         </div>
       </div>
 <div class="container">
-
     <div class="profile-container">
   <h3>{{ user.first_name }} {{ user.last_name }}</h3>
           <h3>Email: {{ user.email }}</h3><br>
         <h1> Przekazane dary:</h1><br>
+
+
+
         {% for donation in donations %}
+
   <table>
     <tr>
       <td>Nazwa organizacji:</td>
@@ -37,35 +40,21 @@
       <td>{{ donation.pick_up_date }}, {{ donation.pick_up_time }}</td>
     </tr>
     <tr>
-      <td>Odebrane:</td>
         <form method="POST">
-                {% csrf_token %}
-      <td><input type="checkbox"></td>
-        </form>
-    </tr>
+            {% csrf_token %}
+      <td>Odebrane:</td>
+      <td>{{ form.is_taken }} </td>
+        <input type="submit" value="Wyślij">
+              </form>
+
       <br>
   </table>
         {% endfor %}
 
-</div>
-<!--    <ul>-->
-<!--        <li><h3><p>Imię: {{ user.first_name }}</p> </h3></li>-->
-<!--    <li><h3><p> Nazwisko: {{ user.last_name }}</p> </h3></li>-->
-<!--    <li><h3><p> Email: {{ user.email }} </p></h3></li>-->
-<!--    <li>-->
-<!--        <h3><p> Przekazane dary:<br>-->
-<!--        {% for donation in donations %}-->
-<!--        <li>Nazwa organizacji: {{ donation.institution.name }}</li>-->
-<!--                <li>Ilość przekazanych worków: {{ donation.quantity }}</li>-->
-<!--                <li>Termin odebrania: {{ donation.pick_up_date }}, {{ donation.pick_up_time }}</li>-->
-<!--        {% endfor %}-->
-<!--    </h3></p></li>-->
-<!--        </ul>-->
-</div>
+        </div>
+    </div>
 
       </div>
     </section>
-
-    <script src="{% static 'js/app.js' %}"></script>
 
 {% endblock %}
