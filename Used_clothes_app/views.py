@@ -1,7 +1,7 @@
 from typing import Any
 
 from django.core.paginator import Paginator
-from django.forms import forms
+from django.forms import forms, formset_factory
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -13,9 +13,12 @@ from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm, Dona
 
 class LandingPage(View):
     def get(self, request):
-        fundactions_list = Institution.objects.filter(type="f").order_by("-name")
-        non_gov_orgs_list = Institution.objects.filter(type="op").order_by("-name")
-        locall_collections_list = Institution.objects.filter(type="zl").order_by("-name")
+        fundactions_list = Institution.objects.filter(
+            type="f").order_by("-name")
+        non_gov_orgs_list = Institution.objects.filter(
+            type="op").order_by("-name")
+        locall_collections_list = Institution.objects.filter(
+            type="zl").order_by("-name")
 
         f = Paginator(fundactions_list, 3)
         page_1 = request.GET.get("page")
@@ -31,7 +34,8 @@ class LandingPage(View):
 
         donations = Donation.objects.all()
         bag_quantity = 0
-        for donation in donations: bag_quantity += donation.quantity
+        for donation in donations:
+            bag_quantity += donation.quantity
 
         fundactions_name = [don.institution.name for don in donations]
         fundactions_set = set(fundactions_name)
@@ -77,7 +81,8 @@ class AddDonation(View):
         if form.is_valid():
             donation = Donation()
             donation.quantity = form.cleaned_data['quantity']
-            institution = get_object_or_404(Institution, pk=form.cleaned_data['institution'])
+            institution = get_object_or_404(
+                Institution, pk=form.cleaned_data['institution'])
             donation.institution = institution
             donation.address = form.cleaned_data['address']
             donation.phone_number = form.cleaned_data['phone_number']
@@ -88,7 +93,8 @@ class AddDonation(View):
             donation.pick_up_comment = form.cleaned_data['pick_up_comment']
             donation.user = request.user
             donation.save()
-            categories = Category.objects.filter(pk__in=form.cleaned_data['categories'])
+            categories = Category.objects.filter(
+                pk__in=form.cleaned_data['categories'])
             donation.categories.set(categories)
 
             return JsonResponse({'status': 'success', 'success_url': reverse('success')})
@@ -172,7 +178,8 @@ class Profile(View):
     def get(self, request):
         user = request.user
         donations = user.donation_set.all()
-        DonationFormSet = forms.formset_factory(DonationForm, extra=donations.count())
+        DonationFormSet = formset_factory(
+            DonationForm, extra=donations.count())
         formset = DonationFormSet()
 
         ctx = {
@@ -185,12 +192,9 @@ class Profile(View):
     def post(self, request):
         user = request.user
         donations = user.donation_set.all()
-        DonationFormSet = forms.formset_factory(DonationForm, extra=len(donations))
+        DonationFormSet = forms.formset_factory(
+            DonationForm, extra=len(donations))
         formset = DonationFormSet(request.POST)
-
-        
-
-
 
 
 class FormConfirmation(View):
