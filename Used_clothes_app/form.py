@@ -2,7 +2,7 @@ from datetime import datetime
 from django.core.validators import RegexValidator
 from django.contrib.auth import get_user_model
 from django import forms
-from xdg.Exceptions import ValidationError
+from django.core.exceptions import ValidationError
 from Used_clothes_app.models import User
 
 
