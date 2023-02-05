@@ -178,8 +178,11 @@ class Profile(View):
     def get(self, request):
         user = request.user
         donations = user.donation_set.all()
-        DonationFormSet = formset_factory(
-            DonationForm, extra=donations.count())
+        print(donations.count())
+        
+        for i in range(donations.count()):
+            i = DonationForm()
+        DonationFormSet = formset_factory(DonationForm, extra=donations.count())
         formset = DonationFormSet()
 
         ctx = {
@@ -188,13 +191,17 @@ class Profile(View):
             'formset': formset,
         }
         return render(request, 'profile.html', ctx)
-
+    
     def post(self, request):
         user = request.user
         donations = user.donation_set.all()
-        DonationFormSet = forms.formset_factory(
-            DonationForm, extra=len(donations))
-        formset = DonationFormSet(request.POST)
+        formset = formset_factory(DonationForm)(request.POST)
+        if formset.is_valid():
+            for form in formset:
+                is_taken = form.cleaned_data['is_taken']
+                print(is_taken)
+                
+        return redirect('profile')
 
 
 class FormConfirmation(View):

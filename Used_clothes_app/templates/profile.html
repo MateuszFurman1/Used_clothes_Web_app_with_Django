@@ -22,7 +22,8 @@
           <h3>Email: {{ user.email }}</h3><br>
         <h1> Przekazane dary:</h1><br>
 
-
+        <form method="POST">
+          {% csrf_token %}
 
         {% for donation in donations %}
 
@@ -40,16 +41,12 @@
       <td>{{ donation.pick_up_date }}, {{ donation.pick_up_time }}</td>
     </tr>
     <tr>
-        <form method="POST">
-            {% csrf_token %}
       <td>Odebrane:</td>
-      <td>{{ form.is_taken }} </td>
-        <input type="submit" value="Wyślij">
-              </form>
-
+      <td><input type="checkbox" name={{ donation.id }}></td>
       <br>
   </table>
         {% endfor %}
+      </form>
 
         </div>
     </div>
