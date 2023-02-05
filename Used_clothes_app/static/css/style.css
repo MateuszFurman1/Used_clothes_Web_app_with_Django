@@ -486,6 +486,13 @@ h2:after {
   cursor: pointer;
 }
 
+
+.section1 {
+  display: block;
+  width: 100%;
+  margin-left: 20px;
+}
+
 /* line 12, scss/modules/_buttons.scss */
 .btn:hover {
   border-color: #f9c910;

@@ -85,3 +85,7 @@ class Donation(models.Model):
     pick_up_comment = models.CharField(max_length=255)
     is_taken = models.BooleanField(default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    
+    def __str__(self):
+        return f' {self.id}, {self.institution.name}' 
+    

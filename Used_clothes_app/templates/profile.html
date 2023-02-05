@@ -16,13 +16,12 @@
 
         </div>
       </div>
-<div class="container">
-    <div class="profile-container">
+    <div class="section1">
   <h3>{{ user.first_name }} {{ user.last_name }}</h3>
           <h3>Email: {{ user.email }}</h3><br>
         <h1> Przekazane dary:</h1><br>
 
-        <form method="POST">
+        <form method="POST" class="section1">
           {% csrf_token %}
 
         {% for donation in donations %}
@@ -42,12 +41,17 @@
     </tr>
     <tr>
       <td>Odebrane:</td>
-      <td><input type="checkbox" name={{ donation.id }}></td>
+      <td><input type="checkbox" name="checkbox" {% if donation.is_taken == True %} 
+        checked {% else %} '' {% endif %}</td>
+      <td>
+        <input type="hidden" value="{{ donation.id }}" name="{{ donation.id }}">
+        <input type="submit" value="Zapisz">
+
+      </td>
       <br>
   </table>
         {% endfor %}
       </form>
-
         </div>
     </div>
 

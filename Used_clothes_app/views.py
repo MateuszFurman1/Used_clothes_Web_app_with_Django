@@ -178,29 +178,20 @@ class Profile(View):
     def get(self, request):
         user = request.user
         donations = user.donation_set.all()
-        print(donations.count())
-        
-        for i in range(donations.count()):
-            i = DonationForm()
-        DonationFormSet = formset_factory(DonationForm, extra=donations.count())
-        formset = DonationFormSet()
-
         ctx = {
             'user': user,
             'donations': donations,
-            'formset': formset,
         }
         return render(request, 'profile.html', ctx)
-    
+
     def post(self, request):
-        user = request.user
-        donations = user.donation_set.all()
-        formset = formset_factory(DonationForm)(request.POST)
-        if formset.is_valid():
-            for form in formset:
-                is_taken = form.cleaned_data['is_taken']
-                print(is_taken)
-                
+        donation_is_taken = request.POST.get('checkbox')
+        donation_id = request.POST.get('id')
+        donation_id = int(donation_id)
+        donation = get_object_or_404(Donation, id=donation_id)
+        donation.is_taken = True if donation_is_taken else False
+        donation.save()
+        
         return redirect('profile')
 
 
