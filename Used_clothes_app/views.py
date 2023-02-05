@@ -185,12 +185,14 @@ class Profile(View):
         return render(request, 'profile.html', ctx)
 
     def post(self, request):
-        donation_is_taken = request.POST.get('checkbox')
-        donation_id = request.POST.get('id')
-        donation_id = int(donation_id)
-        donation = get_object_or_404(Donation, id=donation_id)
-        donation.is_taken = True if donation_is_taken else False
-        donation.save()
+        user = request.user
+        donations = user.donation_set.all()
+        for donation in donations:
+            id = donation.id        
+            donation_is_taken = request.POST.get(id)
+            donation = get_object_or_404(Donation, id=id)
+            donation.is_taken = True if donation_is_taken else False
+            donation.save()
         
         return redirect('profile')
 

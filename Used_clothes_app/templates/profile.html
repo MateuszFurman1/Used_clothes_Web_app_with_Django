@@ -41,16 +41,15 @@
     </tr>
     <tr>
       <td>Odebrane:</td>
-      <td><input type="checkbox" name="checkbox" {% if donation.is_taken == True %} 
+      <td><input type="checkbox" name="{{ donation.id}}" {% if donation.is_taken == True %} 
         checked {% else %} '' {% endif %}</td>
       <td>
-        <input type="hidden" value="{{ donation.id }}" name="{{ donation.id }}">
-        <input type="submit" value="Zapisz">
-
       </td>
       <br>
   </table>
         {% endfor %}
+        <button type="submit" class="btn btn-submit btn-primary">Zapisz</button>
+
       </form>
         </div>
     </div>

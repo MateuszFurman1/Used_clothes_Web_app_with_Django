@@ -486,6 +486,10 @@ h2:after {
   cursor: pointer;
 }
 
+.btn-submit {
+  padding: 10px 20px;
+  font-size: 20px;
+}
 
 .section1 {
   display: block;
