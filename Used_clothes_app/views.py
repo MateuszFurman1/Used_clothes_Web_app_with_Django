@@ -177,7 +177,7 @@ class Logout(View):
 class Profile(View):
     def get(self, request):
         user = request.user
-        donations = user.donation_set.all()
+        donations = user.donation_set.all().order_by('id')
         ctx = {
             'user': user,
             'donations': donations,
@@ -186,10 +186,10 @@ class Profile(View):
 
     def post(self, request):
         user = request.user
-        donations = user.donation_set.all()
+        donations = user.donation_set.all().order_by('id')
         for donation in donations:
             id = donation.id        
-            donation_is_taken = request.POST.get(id)
+            donation_is_taken = request.POST.get(f'{id}')
             donation = get_object_or_404(Donation, id=id)
             donation.is_taken = True if donation_is_taken else False
             donation.save()

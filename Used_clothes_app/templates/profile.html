@@ -28,22 +28,22 @@
 
   <table>
     <tr>
-      <td>Nazwa organizacji:</td>
-      <td>{{ donation.institution.name }}</td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Nazwa organizacji:</td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">{{ donation.institution.name }}</td>
     </tr>
     <tr>
-      <td>Ilość przekazanych worków:</td>
-      <td>{{ donation.quantity }}</td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Ilość przekazanych worków:</td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">{{ donation.quantity }}</td>
     </tr>
     <tr>
-      <td>Termin odebrania:</td>
-      <td>{{ donation.pick_up_date }}, {{ donation.pick_up_time }}</td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Termin odebrania:</td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">{{ donation.pick_up_date }}, {{ donation.pick_up_time }}</td>
     </tr>
     <tr>
-      <td>Odebrane:</td>
-      <td><input type="checkbox" name="{{ donation.id}}" {% if donation.is_taken == True %} 
-        checked {% else %} '' {% endif %}</td>
-      <td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Odebrane:</td>
+      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">
+        <input type="checkbox" class="checkbox-label" name="{{ donation.id }}" {% if donation.is_taken == True %} 
+        checked {% else %} "" {% endif %} 
       </td>
       <br>
   </table>

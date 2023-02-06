@@ -491,6 +491,15 @@ h2:after {
   font-size: 20px;
 }
 
+.checkbox-label {
+  color: black;
+}
+
+input[type="checkbox"]:checked + .checkbox-label {
+  color: green;
+  text-decoration: line-through;
+}
+
 .section1 {
   display: block;
   width: 100%;
