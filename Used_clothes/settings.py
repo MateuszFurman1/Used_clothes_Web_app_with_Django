@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Used_clothes_app'
+    'Used_clothes_app',
+    'crispy_forms',
 ]
 
 # AUTH_USER_MODEL = 'Used_clothes_app.User'

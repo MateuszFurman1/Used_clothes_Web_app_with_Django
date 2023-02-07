@@ -7,11 +7,11 @@
                     {% if user.is_superuser %}
                     <li><a href="{% url 'profile' %}">Profil</a></li>
                     <li><a href="{% url 'admin:index' %}">Admin panel</a></li>
-                    <li><a href="#">Ustawienia</a></li>
+                    <li><a href="{% url 'settings' %}">Ustawienia</a></li>
                     <li><a href="{% url 'logout' %}">Wyloguj</a></li>
                     {% else %}
                     <li><a href="{% url 'profile' %}">Profil</a></li>
-                    <li><a href="#">Ustawienia</a></li>
+                    <li><a href="{% url 'settings' %}">Ustawienia</a></li>
                     <li><a href="{% url 'logout' %}">Wyloguj</a></li>
                     {% endif %}
                 </ul>

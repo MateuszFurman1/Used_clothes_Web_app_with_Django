@@ -188,15 +188,25 @@ class Profile(View):
         user = request.user
         donations = user.donation_set.all().order_by('id')
         for donation in donations:
-            id = donation.id        
+            id = donation.id
             donation_is_taken = request.POST.get(f'{id}')
             donation = get_object_or_404(Donation, id=id)
             donation.is_taken = True if donation_is_taken else False
             donation.save()
-        
+
         return redirect('profile')
 
 
 class FormConfirmation(View):
     def get(self, request):
         return render(request, 'form-confirmation.html')
+
+
+class UserSettings(View):
+    def get(self, request):
+        user = request.user
+        form = ProfileForm(instance=user)
+        ctx = {
+            'form': form,
+        }
+        return render(request, 'setting.html', ctx)
