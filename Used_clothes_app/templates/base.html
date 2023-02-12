@@ -1,5 +1,5 @@
 {% load static %}
-<link href="{% static 'css/style.css' %}" rel="stylesheet">
+<link href="{% static 'css/style.css' %}" rel="stylesheet" />
 <!DOCTYPE html>
 <html lang="pl">
   <head>
@@ -9,12 +9,6 @@
     <title>Document</title>
   </head>
   <body>
-
-       {% block header %}
-
-       {% endblock %}
-
-            {% block content2 %}
-            {% endblock %}
+    {% block header %} {% endblock %} {% block content2 %} {% endblock %}
   </body>
 </html>

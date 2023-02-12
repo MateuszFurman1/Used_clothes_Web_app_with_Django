@@ -1,62 +1,84 @@
-{% extends 'base.html' %}
-{% load static %}
-(% load crispy_forms_tags %)
+{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {%
+block header %}
+<header class="header">{% include 'navbar.html' %}</header>
+{% endblock %} {% block content2 %}
 
-{% block header %}
-    <header class="header">
-       {% include 'navbar.html' %}
-    </header>
-{% endblock %}
-{% block content2 %}
-
-  <section class="form--steps" id="form">
-      <div class="form--steps-instructions">
-        <div class="form--steps-container">
-          <h3>Profile</h3>
-
-        </div>
-      </div>
-    <div class="section1">
-  <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-          <h3>Email: {{ user.email }}</h3><br>
-        <h1> Przekazane dary:</h1><br>
-
-        <form method="POST" class="section1">
-          {% csrf_token %}
-
-        {% for donation in donations %}
-
-  <table>
-    <tr>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Nazwa organizacji:</td>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">{{ donation.institution.name }}</td>
-    </tr>
-    <tr>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Ilość przekazanych worków:</td>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">{{ donation.quantity }}</td>
-    </tr>
-    <tr>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Termin odebrania:</td>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">{{ donation.pick_up_date }}, {{ donation.pick_up_time }}</td>
-    </tr>
-    <tr>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">Odebrane:</td>
-      <td style="background-color: {% if donation.is_taken %} green {% else %} "" {% endif %};">
-        <input type="checkbox" class="checkbox-label" name="{{ donation.id }}" {% if donation.is_taken == True %} 
-        checked {% else %} "" {% endif %} 
-      </td>
-      <br>
-  </table>
-  {% empty %}
-  <h2>No donations from you </h2>
-        {% endfor %}
-        <button type="submit" class="btn btn-submit btn-primary">Zapisz</button>
-
-      </form>
-        </div>
+<section class="form--steps" id="form">
+  <div class="form--steps-instructions">
+    <div class="form--steps-container">
+      <h3>Profile</h3>
     </div>
+  </div>
+  <div class="section1">
+    <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+    <h3>Email: {{ user.email }}</h3>
+    <br />
+    <h1>Przekazane dary:</h1>
+    <br />
 
-      </div>
-    </section>
+    <form method="POST" class="section1">
+      {% csrf_token %} {% for donation in donations %}
+
+      <table>
+        <tr>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            Nazwa organizacji:
+          </td>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            {{ donation.institution.name }}
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            Ilość przekazanych worków:
+          </td>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            {{ donation.quantity }}
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            Termin odebrania:
+          </td>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            {{ donation.pick_up_date }}, {{ donation.pick_up_time }}
+          </td>
+        </tr>
+        <tr>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            Odebrane:
+          </td>
+          <td
+            style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
+          >
+            <input type="checkbox" class="checkbox-label" name="{{ donation.id
+            }}" {% if donation.is_taken == True %} checked {% else %} {% endif
+            %}
+          </td>
+          <br />
+        </tr>
+      </table>
+
+      {% empty %}
+      <h2>No donations from you</h2>
+      {% endfor %}
+      <button type="submit" class="btn btn-submit btn-primary">Zapisz</button>
+    </form>
+  </div>
+</section>
 
 {% endblock %}
