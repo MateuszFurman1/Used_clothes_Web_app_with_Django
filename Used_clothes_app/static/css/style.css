@@ -507,6 +507,18 @@ input[type="checkbox"]:checked + .checkbox-label {
   font-size: 20px;
 }
 
+.section1 .password-button {
+  display: block;
+  width: 20%;
+  margin-left: 20px;
+  font-size: 20px;
+}
+
+
+.section1 form {
+  font-size: 20px;
+}
+
 /* line 12, scss/modules/_buttons.scss */
 .btn:hover {
   border-color: #f9c910;

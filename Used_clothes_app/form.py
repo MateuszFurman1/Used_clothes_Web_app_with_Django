@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django import forms
 from django.core.exceptions import ValidationError
 from Used_clothes_app.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 class LoginForm(forms.Form):
@@ -43,51 +44,6 @@ class ProfileForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-
-        # Get the current user
-        user = User.objects.get(email=self.request.user.email)
-
-        # Compare the password from the form to the user's password
-        if not user.check_password(password):
-            raise forms.ValidationError("Incorrect password")
-        return cleaned_data
-
-
-# class ChangePasswordForm(forms.Form):
-    # old_password = forms.CharField(widget=forms.PasswordInput)
-    # new_password = forms.CharField(widget=forms.PasswordInput)
-    # confirm_password = forms.CharField(widget=forms.PasswordInput)
-
-    # def __init__(self, user, *args, **kwargs):
-    #     self.user = user
-    #     super().__init__(*args, **kwargs)
-
-    # def clean_old_password(self):
-    #     old_password = self.cleaned_data.get('old_password')
-
-    #     if not self.user.check_password(old_password):
-    #         raise forms.ValidationError("Old password is incorrect.")
-
-    #     return old_password
-
-    # def clean_confirm_password(self):
-    #     new_password = self.cleaned_data.get('new_password')
-    #     confirm_password = self.cleaned_data.get('confirm_password')
-
-    #     if new_password != confirm_password:
-    #         raise forms.ValidationError("Confirm password does not match.")
-
-    #     return confirm_password
-
-    # def save(self, commit=True):
-    #     self.user.set_password(self.cleaned_data["new_password"])
-    #     if commit:
-    #         self.user.save()
-    #     return self.user
-
 
 phone_regex = RegexValidator(
     regex=r'^\+?1?\d{9,15}$',
@@ -120,3 +76,9 @@ class DonationForm(forms.Form):
         pick_up_date = self.cleaned_data['pick_up_date']
         if pick_up_date < today():
             raise ValidationError('Pick up date must be in the future!')
+
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label= 'New password')
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label= 'Repate new password')

@@ -1,7 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {%
-block header %}
-<header class="header">{% include 'navbar.html' %}</header>
-{% endblock %} {% block content2 %}
+{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {%block header %}
+<header class="header">{%include 'navbar.html'%}</header>
+{%endblock header%} {% block content2%}
 
 <section class="form--steps" id="form">
   <div class="form--steps-instructions">
@@ -66,8 +65,7 @@ block header %}
             style="background-color: {% if donation.is_taken %} green {% else %}  {% endif %};"
           >
             <input type="checkbox" class="checkbox-label" name="{{ donation.id
-            }}" {% if donation.is_taken == True %} checked {% else %} {% endif
-            %}
+            }}" {% if donation.is_taken == True%} checked {%else%} {%endif%}
           </td>
           <br />
         </tr>

@@ -1,15 +1,17 @@
 from typing import Any
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from django.forms import forms, formset_factory
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
-from Used_clothes_app.models import User
-from django.contrib.auth import authenticate, login, logout
-from Used_clothes_app.models import Institution, Donation, Category
-from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm, DonationForm
+
+from Used_clothes_app.form import (DonationForm, LoginForm, ProfileForm,
+                                   RegistrationForm, CustomPasswordChangeForm)
+from Used_clothes_app.models import Category, Donation, Institution, User
 
 
 class LandingPage(View):
@@ -176,6 +178,12 @@ class Logout(View):
 
 
 class Profile(View):
+    """_summary_
+
+    Args:
+        View (_type_): _description_
+    """
+
     def get(self, request):
         user = request.user
         donations = user.donation_set.all().order_by('id')
@@ -207,25 +215,84 @@ class UserSettings(View):
     def get(self, request):
         user = request.user
         form = ProfileForm(instance=user)
+        message = None
         ctx = {
             'form': form,
+            'message': message
         }
         return render(request, 'setting.html', ctx)
-    
+
     def post(self, request):
-        form = ProfileForm(request.POST)
+        user = request.user
+        form = ProfileForm(request.POST, instance=user)
         if form.is_valid():
-            user = User.objects.get(email=request.user.email)
+            password = form.cleaned_data["password"]
+            if not user.check_password(password):
+                message = "Invalid password"
+                form = ProfileForm(instance=user)
+                ctx = {
+                    'form': form,
+                    'message': message,
+                }
+                return render(request, 'setting.html', ctx)
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
             user.email = form.cleaned_data['email']
             user.save()
-            return redirect(request, 'settings')
-        
-        user = request.user
+            message = "The form was processed successfully"
+
+            ctx = {
+                'form': form,
+                'message': message,
+            }
+            return render(request, 'setting.html', ctx)
         form = ProfileForm(instance=user)
         ctx = {
             'form': form,
+            'message': message,
         }
         return render(request, 'setting.html', ctx)
-        
+
+
+class ChangePassword(LoginRequiredMixin, View):
+    def get(self, request):
+        message = None
+        user = request.user
+        form = CustomPasswordChangeForm(request.user)
+        ctx = {
+            'form': form,
+            'message': message,
+        }
+        return render(request, 'password.html', ctx)
+
+    def post(self, request):
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data["old_password"]
+            if not user.check_password(old_password):
+                message = 'Invalid password'
+                user = request.user
+                form = CustomPasswordChangeForm(request.user)
+                ctx = {
+                    'form': form,
+                    'message': message,
+                }
+                return render(request, "password.html", ctx)
+            user = form.save()
+            update_session_auth_hash(request, user)
+            message = 'The form was processed successfully'
+            user = request.user
+            form = CustomPasswordChangeForm(request.user)
+            ctx = {
+                'form': form,
+                'message': message,
+            }
+            return render(request, "password.html", ctx)
+        message = 'The form was processed unsuccessfully'
+        user = request.user
+        form = CustomPasswordChangeForm(request.user)
+        ctx = {
+            'form': form,
+            'message': message,
+        }
+        return render(request, "password.html", ctx)
