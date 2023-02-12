@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block header %}
     <header class="header">
@@ -12,16 +13,15 @@
       <div class="form--steps-instructions">
         <div class="form--steps-container">
           <h3>Profile</h3>
-
         </div>
       </div>
     <div class="section1">
       <form method="POST" class="section1">
         {% csrf_token %}
-          {{ form.as_p}}
+         <h1>{{ form.as_p }}
+          <button type="submit">Submit</button></h1>
       </form>
     </div>
-
     </section>
-
+<div>
 {% endblock %}

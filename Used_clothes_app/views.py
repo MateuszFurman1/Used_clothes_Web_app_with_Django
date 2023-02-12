@@ -6,6 +6,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.views import View
+from Used_clothes_app.models import User
 from django.contrib.auth import authenticate, login, logout
 from Used_clothes_app.models import Institution, Donation, Category
 from Used_clothes_app.form import LoginForm, RegistrationForm, ProfileForm, DonationForm
@@ -210,3 +211,21 @@ class UserSettings(View):
             'form': form,
         }
         return render(request, 'setting.html', ctx)
+    
+    def post(self, request):
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(email=request.user.email)
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.email = form.cleaned_data['email']
+            user.save()
+            return redirect(request, 'settings')
+        
+        user = request.user
+        form = ProfileForm(instance=user)
+        ctx = {
+            'form': form,
+        }
+        return render(request, 'setting.html', ctx)
+        

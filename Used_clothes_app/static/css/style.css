@@ -504,6 +504,7 @@ input[type="checkbox"]:checked + .checkbox-label {
   display: block;
   width: 100%;
   margin-left: 20px;
+  font-size: 40px;
 }
 
 /* line 12, scss/modules/_buttons.scss */
@@ -599,6 +600,10 @@ form .form-group--buttons {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+.form-group p {
+  font-size: larger;
 }
 
 /* line 39, scss/modules/_forms.scss */
