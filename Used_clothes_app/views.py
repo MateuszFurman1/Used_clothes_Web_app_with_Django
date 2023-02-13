@@ -15,6 +15,13 @@ from Used_clothes_app.models import Category, Donation, Institution, User
 
 
 class LandingPage(View):
+    '''
+    LandingPage views. Display main webb site with all information, depends if user is logged or not
+    return render index.html
+    if error:
+    return render index.html
+    '''
+
     def get(self, request):
         fundactions_list = Institution.objects.filter(
             type="f").order_by("-name")
@@ -67,6 +74,14 @@ class LandingPage(View):
 
 
 class AddDonation(View):
+    '''
+    AddDonation views. Working with Js fetch form and save data to postgres database
+    if success:
+    return json response with success
+    if error:
+    return json response with error
+    '''
+
     def get(self, request):
 
         categories = Category.objects.all()
@@ -178,11 +193,13 @@ class Logout(View):
 
 
 class Profile(View):
-    """_summary_
-
-    Args:
-        View (_type_): _description_
-    """
+    '''
+    Profile views. Display information about current user logged into website
+    if success:
+    return redirect to profile view
+    if error:
+    return redirect to profile view
+    '''
 
     def get(self, request):
         user = request.user
@@ -207,11 +224,27 @@ class Profile(View):
 
 
 class FormConfirmation(View):
+    '''
+    FormConfirmation views. Display message after form successfully send.
+    if success:
+    return render form-confirmation.html
+    '''
+
     def get(self, request):
         return render(request, 'form-confirmation.html')
 
 
 class UserSettings(View):
+    '''
+    UserSetting views. Display information about current user logged into website.
+    User is able to change data after confirming password.
+    Can change password in different html template.
+    if success:
+    return return settings.html
+    if error:
+    return return settings.html
+    '''
+
     def get(self, request):
         user = request.user
         form = ProfileForm(instance=user)
@@ -255,6 +288,15 @@ class UserSettings(View):
 
 
 class ChangePassword(LoginRequiredMixin, View):
+    '''
+    ChangePassword views. User can change his password by set old password and two times new password.
+    Required logged user.
+    if success:
+    return return password.html
+    if error:
+    return return password.html
+    '''
+
     def get(self, request):
         message = None
         user = request.user
@@ -268,6 +310,7 @@ class ChangePassword(LoginRequiredMixin, View):
     def post(self, request):
         form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
+            user = request.user
             old_password = form.cleaned_data["old_password"]
             if not user.check_password(old_password):
                 message = 'Invalid password'
@@ -281,7 +324,6 @@ class ChangePassword(LoginRequiredMixin, View):
             user = form.save()
             update_session_auth_hash(request, user)
             message = 'The form was processed successfully'
-            user = request.user
             form = CustomPasswordChangeForm(request.user)
             ctx = {
                 'form': form,

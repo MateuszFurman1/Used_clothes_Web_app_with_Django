@@ -81,4 +81,4 @@ class DonationForm(forms.Form):
 class CustomPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label= 'New password')
-    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label= 'Repate new password')
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), label= 'Repeat new password')
