@@ -1,0 +1,52 @@
+import factory
+from django.contrib.auth import get_user_model
+from Used_clothes_app.models import Category, Institution, Donation
+
+
+class UserFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = get_user_model()
+
+    email = factory.Sequence(lambda n: 'user{}@example.com'.format(n))
+    first_name = 'Admin'
+    last_name = 'Admin'
+    is_staff = True
+
+
+class CategoryFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Category
+
+    name = factory.Sequence(lambda n: 'Category {}'.format(n))
+
+
+class InstitutionFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Institution
+
+    name = factory.Sequence(lambda n: 'Institution {}'.format(n))
+    description = 'Description'
+    goals = 'Goals'
+    type = 'Fundation'
+
+
+class DonationFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Donation
+
+    quantity = 1
+    institution = factory.SubFactory(InstitutionFactory)
+    address = 'Address'
+    phone_number = '123456789'
+    city = 'City'
+    zip_code = '12345'
+    pick_up_date = factory.Faker('date_this_year')
+    pick_up_time = factory.Faker('time')
+    pick_up_comment = 'Comment'
+    user = factory.SubFactory(UserFactory)
+
+
+user = UserFactory()
+category = CategoryFactory(5)
+institution = InstitutionFactory(5)
+donation = DonationFactory(5)

@@ -1,7 +1,8 @@
 from typing import Any
+
+from django.contrib.auth import (authenticate, login, logout,
+                                 update_session_auth_hash)
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from django.forms import forms, formset_factory
 from django.http import JsonResponse
@@ -9,8 +10,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.views import View
 
-from Used_clothes_app.form import (DonationForm, LoginForm, ProfileForm,
-                                   RegistrationForm, CustomPasswordChangeForm)
+from Used_clothes_app.form import (CustomPasswordChangeForm, DonationForm,
+                                   LoginForm, ProfileForm, RegistrationForm)
 from Used_clothes_app.models import Category, Donation, Institution, User
 
 
