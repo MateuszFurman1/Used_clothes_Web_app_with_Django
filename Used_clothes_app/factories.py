@@ -8,7 +8,7 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = get_user_model()
 
     email = factory.Sequence(lambda n: 'user{}@example.com'.format(n))
-    first_name = 'Admin'
+    first_name = factory.Faker
     last_name = 'Admin'
     is_staff = True
 
@@ -27,7 +27,7 @@ class InstitutionFactory(factory.django.DjangoModelFactory):
     name = factory.Sequence(lambda n: 'Institution {}'.format(n))
     description = 'Description'
     goals = 'Goals'
-    type = 'Fundation'
+    type = 'FU'
 
 
 class DonationFactory(factory.django.DjangoModelFactory):
@@ -44,9 +44,3 @@ class DonationFactory(factory.django.DjangoModelFactory):
     pick_up_time = factory.Faker('time')
     pick_up_comment = 'Comment'
     user = factory.SubFactory(UserFactory)
-
-
-user = UserFactory()
-category = CategoryFactory(5)
-institution = InstitutionFactory(5)
-donation = DonationFactory(5)
