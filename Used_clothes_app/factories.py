@@ -1,6 +1,7 @@
 import factory
 from django.contrib.auth import get_user_model
 from Used_clothes_app.models import Category, Institution, Donation
+from django.db import transaction
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -8,8 +9,8 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = get_user_model()
 
     email = factory.Sequence(lambda n: 'user{}@example.com'.format(n))
-    first_name = factory.Faker
-    last_name = 'Admin'
+    first_name = factory.Faker('first_name')
+    last_name = factory.Faker('last_name')
     is_staff = True
 
 
